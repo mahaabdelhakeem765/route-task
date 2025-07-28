@@ -1,0 +1,77 @@
+<section class="py-5">
+  <div class="container mx-auto px-4">
+
+    <div class="max-w-xs sm:max-w-sm md:max-w-7xl mx-auto">
+        @if (hasError()) {
+          <!-- Error UI -->
+          <div class="max-w-4xl mx-auto mt-6">
+            <div class="rounded-xl border border-red-300 bg-red-50 p-6 shadow-sm">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-exclamation-triangle text-red-500 text-3xl"></i>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-lg font-semibold text-red-800">Unable to Load Product</h3>
+                  <p class="mt-1 text-sm text-red-700">
+                    Something went wrong while loading this product. Please try again.
+                  </p>
+                  <div class="mt-4">
+                    <button 
+                      (click)="getSingleProductData()" 
+                      class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400">
+                      <i class="fas fa-redo-alt"></i> Retry
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        } @else {
+          <!-- Product Details Card -->
+        <a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-7xl mx-auto hover:bg-gray-100 p-3">
+            <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" [src]="productData().image" alt="">
+            <div class="flex flex-col justify-between p-4 leading-normal">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{productData().title}}</h5>
+                <p class="mb-3 font-normal text-gray-700">{{productData().description}}</p>
+                <hr class="my-1">
+                <div class="flex items-baseline gap-x-7">
+                    <p class="mb-3 font-medium text-gray-900">category: {{productData().category}}</p>
+                    <span class="font-medium text-gray-900">{{productData().price}} EGP</span>
+                    <!-- <div class="flex items-center">
+                        <i class="fas fa-star text-yellow-300"></i>
+                        <span class="text-gray-500">4.5</span>
+                    </div> -->
+    
+                </div>
+                <div class="flex items-center space-x-1">
+        <!-- Full Stars -->
+        @for (star of [].constructor(getFullStarsCount()); track $index) {
+            <ng-container>
+                <i class="fas fa-star text-yellow-400"></i>
+            </ng-container>
+        }
+    
+        <!-- Fractional Star -->
+        @if (getFraction() > 0) {
+            <div class="relative w-4 h-4 inline-block">
+                <i class="far fa-star text-yellow-400 absolute"></i>
+                <i class="fas fa-star text-yellow-400 absolute top-0 left-0 overflow-hidden" [style]="{ width: getFractionWidth() }"></i>
+            </div>
+        }
+    
+        <!-- Empty Stars -->
+        @for (star of [].constructor(getEmptyStarsCount()); track $index) {
+            <ng-container>
+                <i class="far fa-star text-yellow-400"></i>
+            </ng-container>
+        }
+        <span class="text-gray-500 text-sm">({{ productData().rating.rate }})</span>
+    </div>
+            </div>
+        </a>
+        }
+    </div>
+
+
+  </div>
+</section>

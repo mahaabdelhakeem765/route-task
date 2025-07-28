@@ -1,0 +1,60 @@
+<div class="flex flex-col gap-y-2 md:flex-row md:justify-between items-center mb-5">
+    <input [(ngModel)]="searchItems" type="text" id="uEmail" placeholder="Search....." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-full md:w-1/2 p-1.5">
+    <div class="flex flex-col gap-y-2 md:flex-row sm:justify-between sm:gap-x-3">
+        <button id="dropdownButtonSortPrice" data-dropdown-toggle="dropdownSortPrice" class="text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center" type="button">Sort low or high<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+        </button>
+        <button id="dropdownButtonSortA-Z" data-dropdown-toggle="dropdownSortA-Z" class="text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center" type="button">Sort A-Z or Z-A<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+        </button>
+    </div>
+</div>
+
+
+<div class="parent grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+    @for (product of (products()! |search: searchItems() | searchSort : searchItems() : sortByPrice() : sortByTitle()); track product.id) {
+      <app-card [myProduct]="product"></app-card>
+    }@empty {
+     <div class="col-span-full text-center py-16">
+      <div class="flex flex-col items-center justify-center">
+        <svg class="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <h2 class="text-xl font-semibold text-gray-700">No products found</h2>
+        <p class="text-sm text-gray-500 mt-1">Try adjusting your filters or search terms.</p>
+        <button (click)="searchItems.set('')" class="mt-4 px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded hover:bg-gray-700 transition cursor-pointer">
+          Clear Search
+        </button>
+      </div>
+    </div>
+    }
+</div>
+
+<!-- dropdown -->
+ 
+<!-- Dropdown menu price-->
+<div id="dropdownSortPrice" class="z-[9999] hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownButtonSortPrice">
+      <li>
+        <a  (click)="setSortByPrice('asc')"  class="block px-4 py-2 hover:bg-gray-100 text-gray-900">Low to High</a>
+      </li>
+      <li>
+        <a (click)="setSortByPrice('desc')" class="block px-4 py-2 hover:bg-gray-100 text-gray-900">High to Low</a>
+      </li>
+    </ul>
+</div>
+<!-- Dropdown menu A-Z-->
+<div id="dropdownSortA-Z" class="z-[9999] hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownButtonSortA-Z">
+      <li>
+        <a (click)="setSortByTitle('asc')" class="block px-4 py-2 hover:bg-gray-100 text-gray-900">sort: A-Z</a>
+      </li>
+      <li>
+        <a (click)="setSortByTitle('desc')" class="block px-4 py-2 hover:bg-gray-100 text-gray-900">sort: Z-A</a>
+      </li>
+    </ul>
+</div>
